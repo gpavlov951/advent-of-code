@@ -38,6 +38,8 @@ const formattedPageUpdates = pageUpdates.split("\n");
 
 // --- Part One ---
 
+const formattedUpdatePartTwo = []; // It's needed for Part Two
+
 let sumMidNumbers = 0;
 for (const update of formattedPageUpdates) {
   const formattedUpdate = update.split(",");
@@ -65,7 +67,41 @@ for (const update of formattedPageUpdates) {
     const midNumber = Number(formattedUpdate[midIndex]);
 
     sumMidNumbers += midNumber;
+  } else {
+    formattedUpdatePartTwo.push(formattedUpdate); // Get only incorrect update. Needed for Part Two
   }
 }
 
-console.log("Middle page numbers sum:", sumMidNumbers);
+console.log("Sum of middle number of correct page updates:", sumMidNumbers);
+
+// --- Part Two ---
+
+let sumMidNumbersPartTwo = 0;
+
+for (const update of formattedUpdatePartTwo) {
+  const sortedUpdate = update.map(Number).sort((a, b) => {
+    const i = `${b}|${a}`;
+    const j = `${a}|${b}`;
+
+    const validOrder = formattedPageOrdering.includes(i);
+    const reversedOrder = formattedPageOrdering.includes(j);
+
+    if (validOrder) {
+      return 0;
+    } else if (reversedOrder) {
+      return -1;
+    } else {
+      return 1;
+    }
+  });
+
+  const midIndex = Math.floor(update.length / 2);
+  const midNumber = sortedUpdate[midIndex];
+
+  sumMidNumbersPartTwo += midNumber;
+}
+
+console.log(
+  "Sum of middle number of incorrect page updates:",
+  sumMidNumbersPartTwo
+);
