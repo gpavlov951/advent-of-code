@@ -12,7 +12,7 @@ const input = fs.readFileSync(path.join(__dirname, "input.txt"), "utf8");
 // SMSMSASXSS
 // SAXAMASAAA
 // MAMMMXMMMM
-// MXMXAXMASX`; // 18
+// MXMXAXMASX`; // 18 || 9
 
 const formattedInput = input.split("\n");
 
@@ -108,3 +108,29 @@ console.log(
     diagonalMatchRL +
     reverseDiagonalMatchRL
 );
+
+// --- Part Two ---
+
+let xmasMatch = 0;
+
+for (let row = 1; row < formattedInput.length - 1; row++) {
+  for (let col = 1; col < formattedInput[0].length - 1; col++) {
+    const char = formattedInput[row][col];
+
+    if (char === "A") {
+      const tl = formattedInput[row - 1][col - 1];
+      const tr = formattedInput[row - 1][col + 1];
+      const bl = formattedInput[row + 1][col - 1];
+      const br = formattedInput[row + 1][col + 1];
+
+      const scenario = tl === "M" && br === "S";
+      const scenario1 = tl === "S" && br === "M";
+      const scenario2 = tr === "M" && bl === "S";
+      const scenario3 = tr === "S" && bl === "M";
+
+      if ((scenario || scenario1) && (scenario2 || scenario3)) xmasMatch++;
+    }
+  }
+}
+
+console.log("X-MAS Search Result:", xmasMatch);
