@@ -33,6 +33,7 @@ Each year's solutions are stored in their own directory:
 | [Day 3](2024/day03/) |   ⭐   |   ⭐   | [Solution](2024/day03/solution.js) |
 | [Day 4](2024/day04/) |   ⭐   |   ⭐   | [Solution](2024/day04/solution.js) |
 | [Day 5](2024/day05/) |   ⭐   |   ⭐   | [Solution](2024/day05/solution.js) |
+| [Day 6](2024/day06/) |   ⭐   |   ☆    | [Solution](2024/day06/solution.js) |
 
 **Total Stars: 9/50**
 
