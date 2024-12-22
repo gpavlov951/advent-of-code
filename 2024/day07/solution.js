@@ -11,7 +11,7 @@ const input = fs.readFileSync(path.join(__dirname, "input.txt"), "utf8");
 // 161011: 16 10 13
 // 192: 17 8 14
 // 21037: 9 7 18 13
-// 292: 11 6 16 20`; // Part One - 3749 |
+// 292: 11 6 16 20`; // Part One - 3749 | Part Two - 11387
 
 // --- Part One ---
 
@@ -22,11 +22,12 @@ const formattedInput = input.split("\n").map((line) => {
 
 const add = "+";
 const multi = "*";
+const concat = "||";
 
 let totalCalibrationResults = 0;
 
 for (const [eq, numbers] of formattedInput) {
-  const expressions = generateExpressions(numbers);
+  const expressions = generateExpressions(numbers, [add, multi]);
 
   for (const expr of expressions) {
     const res = parseExpression(expr);
@@ -42,10 +43,10 @@ for (const [eq, numbers] of formattedInput) {
 /**
  * Generate expressions using recursion
  * @param {string[]} numbers
- * @param {("+" | "*")[]} operators
+ * @param {("+" | "*" | "||")[]} operators
  * @returns {string[]}
  */
-function generateExpressions(numbers, operators = [add, multi]) {
+function generateExpressions(numbers, operators) {
   const results = [];
 
   function helper(expr, index) {
@@ -73,7 +74,7 @@ function parseExpression(expression) {
   let res, sign;
 
   for (const char of expression.split(" ")) {
-    if (char === add || char === multi) {
+    if (char === add || char === multi || char === concat) {
       sign = char;
       continue;
     }
@@ -87,7 +88,10 @@ function parseExpression(expression) {
 
     if (sign === add) {
       res += number;
-    } else {
+    } else if (sign === concat) {
+      const concatedRes = `${res}${number}`;
+      res = Number(concatedRes);
+    } else if (sign === multi) {
       res *= number;
     }
   }
@@ -96,3 +100,23 @@ function parseExpression(expression) {
 }
 
 console.log("Total Calibration Results:", totalCalibrationResults);
+
+// --- Part Two ---
+
+let totalCalibrationResults2 = 0;
+
+for (const [eq, numbers] of formattedInput) {
+  const expressions = generateExpressions(numbers, [add, multi, concat]);
+
+  for (const expr of expressions) {
+    const res = parseExpression(expr);
+
+    const nEq = Number(eq);
+    if (res === nEq) {
+      totalCalibrationResults2 += nEq;
+      break;
+    }
+  }
+}
+
+console.log("Total Calibration Results 2:", totalCalibrationResults2);
