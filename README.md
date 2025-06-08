@@ -39,6 +39,14 @@ Each year's solutions are stored in their own directory:
 
 **Total Stars: 14/50**
 
+### 2023
+
+| Day                  | Part 1 | Part 2 | Solutions                          |
+| -------------------- | :----: | :----: | ---------------------------------- |
+| [Day 1](2023/day01/) |   ⭐   |   ⭐   | [Solution](2023/day01/solution.js) |
+
+**Total Stars: 2/50**
+
 ## About Advent of Code
 
 [Advent of Code](https://adventofcode.com/) is an annual coding event where participants solve programming puzzles released daily from December 1st through December 25th. Each puzzle consists of two parts, with the second part unlocked after completing the first.
