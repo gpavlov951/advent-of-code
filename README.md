@@ -47,7 +47,7 @@ Each year's solutions are stored in their own directory:
 | [Day 2](2023/day02/) |   ⭐   |   ⭐   | [Solution](2023/day02/solution.js) |
 | [Day 3](2023/day03/) |   ⭐   |   ⭐   | [Solution](2023/day03/solution.js) |
 
-**Total Stars: 5/50**
+**Total Stars: 6/50**
 
 ## About Advent of Code
 

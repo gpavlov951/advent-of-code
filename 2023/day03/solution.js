@@ -153,3 +153,128 @@ const adjacentNumbers = findNumbersAdjacentToSymbols(grid, symbolPositions);
 const sum = calculateSum(adjacentNumbers);
 
 console.log(sum);
+
+// --- Part 2 ---
+
+/**
+ * @param {string[][]} grid
+ * @returns {number[][]}
+ */
+function findPositionsOfSpecialSymbol(grid, symbol) {
+  const positions = [];
+
+  for (let row = 0; row < grid.length; row++) {
+    for (let col = 0; col < grid[row].length; col++) {
+      if (grid[row][col] === symbol) {
+        positions.push([row, col]);
+      }
+    }
+  }
+
+  return positions;
+}
+
+/**
+ * @param {string} row
+ * @param {number} position
+ * @returns {string}
+ */
+function findNumberOnRow(row, position) {
+  let number = "";
+
+  for (let i = position; i < row.length; i++) {
+    if (isDigit(row[i])) {
+      number += row[i];
+    } else {
+      break;
+    }
+  }
+
+  for (let i = position - 1; i >= 0; i--) {
+    if (isDigit(row[i])) {
+      number = row[i] + number;
+    } else {
+      break;
+    }
+  }
+
+  return number;
+}
+
+/**
+ * @param {string[][]} grid
+ * @param {number} gearRow
+ * @param {number} gearCol
+ * @returns {string[]}
+ */
+function findNumbersAdjacentToGear(grid, gearRow, gearCol) {
+  const numbers = [];
+  const foundNumbers = new Set();
+
+  for (let rowOffset = -1; rowOffset <= 1; rowOffset++) {
+    for (let colOffset = -1; colOffset <= 1; colOffset++) {
+      if (rowOffset === 0 && colOffset === 0) continue;
+
+      const checkRow = gearRow + rowOffset;
+      const checkCol = gearCol + colOffset;
+
+      if (
+        checkRow < 0 ||
+        checkRow >= grid.length ||
+        checkCol < 0 ||
+        checkCol >= grid[checkRow].length
+      ) {
+        continue;
+      }
+
+      if (isDigit(grid[checkRow][checkCol])) {
+        const number = findNumberOnRow(grid[checkRow], checkCol);
+
+        let startCol = checkCol;
+        while (startCol > 0 && isDigit(grid[checkRow][startCol - 1])) {
+          startCol--;
+        }
+
+        const numberKey = `${checkRow},${startCol},${number}`;
+
+        if (!foundNumbers.has(numberKey)) {
+          foundNumbers.add(numberKey);
+          numbers.push(number);
+        }
+      }
+    }
+  }
+
+  return numbers;
+}
+
+/**
+ * @param {string[][]} grid
+ * @param {number[][]} coordinates
+ * @returns {number[][]}
+ */
+function findNumbersAdjacentToCoordinates(grid, coordinates) {
+  const numbersAdjacentToCoordinates = [];
+
+  for (const [row, col] of coordinates) {
+    const adjacentNumbers = findNumbersAdjacentToGear(grid, row, col);
+    numbersAdjacentToCoordinates.push(adjacentNumbers);
+  }
+
+  return numbersAdjacentToCoordinates;
+}
+
+const positionsOfSpecialSymbol = findPositionsOfSpecialSymbol(grid, "*");
+const numbersAdjacentToSpecialSymbol = findNumbersAdjacentToCoordinates(
+  grid,
+  positionsOfSpecialSymbol
+);
+const sum2 = numbersAdjacentToSpecialSymbol
+  .filter((arr) => arr.length === 2)
+  .reduce(
+    (sum, numbers) =>
+      sum + numbers.reduce((product, number) => product * Number(number), 1),
+    0
+  );
+
+console.log(sum2);
